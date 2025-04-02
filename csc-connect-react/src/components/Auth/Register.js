@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // In a real application, you would send the email, password, and confirmPassword to your backend API for registration.
-    console.log('Register:', { email, password, confirmPassword });
+    setLoading(true);
+    setError(null);
+
+    // Simulate API call
+    setTimeout(() => {
+      if (password === confirmPassword) {
+        console.log('Registration successful');
+        setLoading(false);
+        navigate('/login'); // Redirect to login page
+      } else {
+        setError('Passwords do not match');
+        setLoading(false);
+      }
+    }, 1000);
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
