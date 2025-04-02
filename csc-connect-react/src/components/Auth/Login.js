@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  // ... (previous state variables)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,7 +17,6 @@ function Login() {
       if (email === 'test@example.com' && password === 'password') {
         console.log('Login successful');
         setLoading(false);
-        localStorage.setItem('authToken', 'fake-auth-token'); // Store the token
         navigate('/');
       } else {
         setError('Invalid email or password');
@@ -22,7 +25,29 @@ function Login() {
     }, 1000);
   };
 
-  // ... (rest of the component)
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;
