@@ -6,17 +6,21 @@ import Footer from './components/Footer';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import ProtectedRoute from './components/ProtectedRoute';
-import { AuthProvider } from './context/AuthContext'; // Import AuthProvider
+import { AuthProvider } from './context/AuthContext';
+import PosterList from './components/Posters/PosterList';
+import PosterDetails from './components/Posters/PosterDetails';
 
 function App() {
   return (
-    <AuthProvider> {/* Wrap Router with AuthProvider */}
-      <Router>
+    <Router>
+      <AuthProvider>
         <div>
-          <Header title="CSC huB - Under Dev" />
+          <Header title="CSC Connect - Official Site" />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/posters" element={<PosterList />} />
+            <Route path="/posters/:id" element={<PosterDetails />} />
             <Route
               path="/"
               element={
@@ -28,8 +32,8 @@ function App() {
           </Routes>
           <Footer />
         </div>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
