@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function PosterList() {
-  const [posters, setPosters] = useState([
-    { id: 1, title: 'Poster 1', imageUrl: 'placeholder1.jpg' },
-    { id: 2, title: 'Poster 2', imageUrl: 'placeholder2.jpg' },
-    { id: 3, title: 'Poster 3', imageUrl: 'placeholder3.jpg' },
-  ]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setPosts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
-      <h2>Poster List</h2>
-      {posters.map((poster) => (
-        <div key={poster.id}>
-          <h3>{poster.title}</h3>
-          <img src={poster.imageUrl} alt={poster.title} />
+      <h2>Poster List (from API)</h2>
+      {posts.map((post) => (
+        <div key={post.id}>
+          <h3>{post.title}</h3>
+          <p>{post.body}</p>
         </div>
       ))}
     </div>
