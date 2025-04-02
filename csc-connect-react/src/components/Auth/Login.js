@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -7,6 +8,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,9 +17,8 @@ function Login() {
 
     setTimeout(() => {
       if (email === 'test@example.com' && password === 'password') {
-        console.log('Login successful');
-        setLoading(false);
-        navigate('/');
+        login('fake-auth-token');
+        navigate('/'); // Use navigate here to redirect after login.
       } else {
         setError('Invalid email or password');
         setLoading(false);
