@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div>
-      <Header />
+      <Header title="CSC Connect - Official Site" />
       <MainContent />
       <Footer />
     </div>
